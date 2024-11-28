@@ -7,6 +7,8 @@ export interface Settings {
   maxAudioBitrate: string;
   contentPreferencesMode?: 'auto' | 'manual';
   clientTrackSwitchOffControl?: 'auto' | 'manual';
+  preferredVideoCodec?: 'auto' | 'VP8' | 'VP8_Simulcast' | 'VP9' | 'H264';
+  screenShareResolution?: 'Source' | '1080p' | '720p';
 }
 
 type SettingsKeys = keyof Settings;
@@ -23,6 +25,8 @@ export const initialSettings: Settings = {
   maxAudioBitrate: '16000',
   contentPreferencesMode: 'auto',
   clientTrackSwitchOffControl: 'auto',
+  preferredVideoCodec: 'auto',
+  screenShareResolution: 'Source',
 };
 
 // This inputLabels object is used by ConnectionOptions.tsx. It is used to populate the id, name, and label props

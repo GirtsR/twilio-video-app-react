@@ -1,6 +1,7 @@
 import { useState, useCallback, useRef } from 'react';
 import { LogLevels, Track, Room } from 'twilio-video';
 import { ErrorCallback } from '../../../types';
+import { useAppState } from '../../../state';
 
 interface MediaStreamTrackPublishOptions {
   name?: string;
@@ -11,12 +12,29 @@ interface MediaStreamTrackPublishOptions {
 export default function useScreenShareToggle(room: Room | null, onError: ErrorCallback) {
   const [isSharing, setIsSharing] = useState(false);
   const stopScreenShareRef = useRef<() => void>(null!);
+  const { settings } = useAppState();
 
   const shareScreen = useCallback(() => {
+    let videoSettings;
+    if (settings.screenShareResolution === 'Source') {
+      // Use source resolution
+      videoSettings = true;
+    } else if (settings.screenShareResolution === '1080p') {
+      // Request resolution close to 1080 vertical pixels
+      videoSettings = {
+        height: { ideal: 1080 },
+      };
+    } else if (settings.screenShareResolution === '720p') {
+      // Request resolution close to 720 vertical pixels
+      videoSettings = {
+        height: { ideal: 720 },
+      };
+    }
+
     navigator.mediaDevices
       .getDisplayMedia({
         audio: false,
-        video: true,
+        video: videoSettings,
       })
       .then(stream => {
         const track = stream.getTracks()[0];

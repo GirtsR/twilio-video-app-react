@@ -182,6 +182,40 @@ export default function ConnectionOptionsDialog({ open, onClose }: { open: boole
                 onChange={handleNumberChange}
               />
             </FormControl>
+
+            <FormControl className={classes.formControl}>
+              <InputLabel id={inputLabels.preferredVideoCodec}>Preferred Video Codec:</InputLabel>
+              <Select
+                fullWidth
+                disabled={isDisabled}
+                name={inputLabels.preferredVideoCodec}
+                label={inputLabels.preferredVideoCodec}
+                value={withDefault(settings.preferredVideoCodec)}
+                onChange={handleChange}
+              >
+                <MenuItem value="auto">Auto (VP8 Adaptive Simulcast - group rooms)</MenuItem>
+                <MenuItem value="VP8_Simulcast">VP8 (Simulcast ON)</MenuItem>
+                <MenuItem value="VP8">VP8 (Simulcast OFF) </MenuItem>
+                <MenuItem value="H264">H264</MenuItem>
+                <MenuItem value="VP9">VP9 (Peer to peer rooms only)</MenuItem>
+              </Select>
+            </FormControl>
+
+            <FormControl className={classes.formControl}>
+              <InputLabel id={inputLabels.screenShareResolution}>Screen share resolution:</InputLabel>
+              <Select
+                fullWidth
+                disabled={isDisabled}
+                name={inputLabels.screenShareResolution}
+                label={inputLabels.screenShareResolution}
+                value={withDefault(settings.screenShareResolution)}
+                onChange={handleChange}
+              >
+                <MenuItem value="Source">Match source</MenuItem>
+                <MenuItem value="1080p">1080p</MenuItem>
+                <MenuItem value="720p">720p</MenuItem>
+              </Select>
+            </FormControl>
           </Grid>
         </Grid>
       </DialogContent>

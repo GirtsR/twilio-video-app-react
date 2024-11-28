@@ -27,11 +27,25 @@ export default function useConnectionOptions() {
     // Comment this line if you are playing music.
     maxAudioBitrate: Number(settings.maxAudioBitrate),
 
-    preferredVideoCodecs: 'auto',
-
     //@ts-ignore - Internal use only. This property is not exposed in type definitions.
     environment: process.env.REACT_APP_TWILIO_ENVIRONMENT,
   };
+
+  if (settings.preferredVideoCodec === 'auto') {
+    connectionOptions!.preferredVideoCodecs = 'auto';
+  }
+  if (settings.preferredVideoCodec === 'VP8_Simulcast') {
+    // @ts-ignore
+    connectionOptions!.preferredVideoCodecs = [
+      {
+        codec: 'VP8',
+        simulcast: true,
+      },
+    ];
+  } else {
+    // @ts-ignore
+    connectionOptions!.preferredVideoCodecs = [{ codec: settings.preferredVideoCodec }];
+  }
 
   // For mobile browsers, limit the maximum incoming video bitrate to 2.5 Mbps.
   if (isMobile && connectionOptions?.bandwidthProfile?.video) {
