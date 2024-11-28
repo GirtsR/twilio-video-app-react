@@ -33,8 +33,7 @@ export default function useConnectionOptions() {
 
   if (settings.preferredVideoCodec === 'auto') {
     connectionOptions!.preferredVideoCodecs = 'auto';
-  }
-  if (settings.preferredVideoCodec === 'VP8_Simulcast') {
+  } else if (settings.preferredVideoCodec === 'VP8_Simulcast') {
     // @ts-ignore
     connectionOptions!.preferredVideoCodecs = [
       {
